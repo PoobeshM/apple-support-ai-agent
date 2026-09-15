@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/
+*.csv
+!golden_eval_set.csv
+.idea/
+.vscode/
