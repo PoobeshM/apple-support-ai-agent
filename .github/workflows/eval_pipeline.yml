@@ -26,15 +26,20 @@ jobs:
         pip install -r requirements.txt
 
     - name: Generate Golden Dataset
+      env:
+        PYTHONPATH: .
       run: |
         python generate_golden_set.py
 
     - name: Run PyTest Verification Suite
+      env:
+        PYTHONPATH: .
       run: |
         pytest tests/ -v
 
     - name: Execute Main Pipeline Harness
       env:
+        PYTHONPATH: .
         OPENAI_API_KEY: "dummy-key-offline-mode"
       run: |
         python run_pipeline.py --sample-size 200
