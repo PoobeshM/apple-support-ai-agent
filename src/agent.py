@@ -48,18 +48,19 @@ def evaluate_escalation_rules(customer_tweet: str, intent: str) -> Tuple[bool, s
     # 1. Check Security / Credential Risks
     for pattern in SECURITY_PATTERNS:
         if re.search(pattern, text_lower):
-            return False, f"Escalated due to security/credential risk trigger matching: '{pattern.strip(r'\\b')}'"
+            clean_pattern = pattern.strip(r'\b')
+            return False, f"Escalated due to security/credential risk trigger matching: '{clean_pattern}'"
 
     # 2. Check Legal / Compliance / Regulatory Threats
     for pattern in COMPLIANCE_LEGAL_PATTERNS:
         if re.search(pattern, text_lower):
-            return False, f"Escalated due to legal/compliance threat trigger matching: '{pattern.strip(r'\\b')}'"
-
+            clean_pattern = pattern.strip(r'\b')
+            return False, f"Escalated due to legal/compliance threat trigger matching: '{clean_pattern}'"
     # 3. Check Rage / Brand Reputation Risk
     for pattern in PROFANITY_RAGE_PATTERNS:
         if re.search(pattern, text_lower):
-            return False, f"Escalated due to high-rage/reputation risk trigger matching: '{pattern.strip(r'\\b')}'"
-
+            clean_pattern = pattern.strip(r'\b')
+            return False, f"Escalated due to high-rage/reputation risk trigger matching: '{clean_pattern}'"
     # 4. Intent-specific Policy Guardrails
     if intent == OperationalIntent.ACCOUNT_ACCESS_AUTH.value:
         if "locked" in text_lower or "2fa" in text_lower:
