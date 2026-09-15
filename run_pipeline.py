@@ -41,7 +41,7 @@ def run_pipeline(sample_size: int = 200):
         else:
             df_golden = df_golden.head(sample_size)
 
-    console.print(f"[green]✓ Successfully loaded golden evaluation set with {len(df_golden)} threads.[/green]")
+    console.print(f"[green][OK] Successfully loaded golden evaluation set with {len(df_golden)} threads.[/green]")
 
     tweets = df_golden["customer_tweet"].tolist()
     y_true_intents = df_golden["ground_truth_intent"].tolist()
@@ -143,11 +143,11 @@ def run_pipeline(sample_size: int = 200):
     table3.add_column("Interpretation", style="bold green")
 
     table3.add_row("Pearson Correlation (r)", f"{agreement_metrics['pearson_r']:.4f}", "Strong Linear Correlation")
-    table3.add_row("Quadratic Weighted Cohen's Kappa (κ)", f"{agreement_metrics['cohen_kappa']:.4f}", agreement_metrics['interpretation'])
+    table3.add_row("Quadratic Weighted Cohen's Kappa (kappa)", f"{agreement_metrics['cohen_kappa']:.4f}", agreement_metrics['interpretation'])
 
     console.print(table3)
 
-    console.print(Panel.fit("[bold green]✓ Pipeline Execution Finished Successfully in < 1 minute![/bold green]"))
+    console.print(Panel.fit("[bold green][OK] Pipeline Execution Finished Successfully in < 1 minute![/bold green]"))
 
 
 if __name__ == "__main__":

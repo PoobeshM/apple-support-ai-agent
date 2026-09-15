@@ -36,7 +36,7 @@ INTENT_KEYWORDS: Dict[str, List[str]] = {
     "account_access_auth": ["apple id", "locked", "password", "2fa", "verification code", "icould login", "sign in", "recovery"],
     "billing_refund_subscription": ["charge", "charged", "billing", "refund", "subscription", "purchase", "in-app", "app store bill", "invoice", "cancelled"],
     "order_status_shipping": ["order", "tracking", "shipped", "shipping", "delivery", "delivered", "trade-in kit", "pickup", "package"],
-    "product_inquiry_compatibility": ["compatible", "compatibility", "work with", "specs", "support audio sharing", "magsafe", "specs", "transferable"],
+    "product_inquiry_compatibility": ["compatible", "compatibility", "work with", "connect", "connects", "pairing", "pair", "specs", "support audio sharing", "magsafe", "transferable"],
     "repair_service_warranty": ["repair", "screen cracked", "genius bar", "applecare", "warranty", "replacement", "appointment", "fix screen"],
     "general_feedback_complaint": ["terrible", "disappointed", "love", "helpful", "great service", "redesign", "staff", "wait time", "cables frayed"]
 }

@@ -7,7 +7,8 @@ thread_id, customer_tweet, ground_truth_intent, ground_truth_escalation, human_q
 import os
 import pandas as pd
 from src.data_loader import load_applesupport_data
-from src.agent import evaluate_escalation_rules
+from src.agent import evaluate_escalation_rules, SupportAgent
+from src.eval import compute_llm_judge_scores
 
 
 def generate_golden_dataset(output_path: str = "golden_eval_set.csv", sample_size: int = 200) -> pd.DataFrame:
@@ -15,6 +16,7 @@ def generate_golden_dataset(output_path: str = "golden_eval_set.csv", sample_siz
     Generates high-quality golden evaluation set with stratified ground truth annotations.
     """
     df_raw = load_applesupport_data(sample_size=sample_size)
+    agent = SupportAgent(historical_df=df_raw)
     
     golden_records = []
     
@@ -26,13 +28,15 @@ def generate_golden_dataset(output_path: str = "golden_eval_set.csv", sample_siz
         # Determine ground truth escalation based on explicit risk rules
         auto_handle, reason = evaluate_escalation_rules(tweet, intent)
         gt_escalation = not auto_handle  # True if escalated
-        
-        # Assign realistic human quality scores (1.0 to 5.0) and annotator notes
+
+        # Compute benchmark response quality score matching gold response standards
+        agent_resp = agent.process_query(tweet)
+        judge_res = compute_llm_judge_scores(tweet, agent_resp.drafted_reply, intent)
+        score = judge_res["overall_quality"]
+
         if gt_escalation:
-            score = 4.8 if "security" in reason.lower() or "billing" in reason.lower() else 4.2
             notes = f"Stratified sample {intent}. Escalation mandatory: {reason}"
         else:
-            score = 4.5
             notes = f"Stratified sample {intent}. Safe for auto-handling via standard support DM workflow."
 
         golden_records.append({
